@@ -9,8 +9,8 @@ const ZONInstance = <TSchema extends z.Schema>(schema: TSchema) => ({
   parse: (): z.infer<TSchema> => {
     return schema.parse({});
   },
-  serialize: (data: z.infer<TSchema>): string => {
+  serialize: (data: z.infer<TSchema>): ArrayBuffer => {
     schema.parse(data);
-    return "";
+    return new ArrayBuffer(10);
   },
 });
