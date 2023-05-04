@@ -1,19 +1,37 @@
 import { z } from "zod";
 
-export const flattenSchema = <TSchema extends z.Schema>(schema: TSchema) => {
-  const testObject = z.object({
+type PossibleDefs =
+  | z.ZodStringDef
+  | z.ZodOptionalDef
+  | z.ZodObjectDef
+  | z.ZodNumberDef
+  | z.ZodBooleanDef
+  | z.ZodArrayDef;
+
+export const flattenSchema = <TSchema extends z.Schema<any, PossibleDefs>>(
+  val: TSchema
+) => {
+  const schema = z.object({
     epic: z.string(),
   });
 
-  if (typeof testObject._type === "string") {
-    
-  }
+  console.log("flattening schema");
+  console.dir(schema);
+  console.log(typeof schema);
 
-  if (typeof testObject._type === "object") {
-    for (const property in testObject._type) {
-      console.log(testObject._type[property]);
-    }
+  if (schema._def.typeName === z.ZodFirstPartyTypeKind.ZodObject) {
+    Object.entries(schema._def.shape).map(([property, value]) =>
+      flattenSchema(value)
+    );
+
+    schema._def.shape;
+  } else if (schema._def.typeName === z.ZodFirstPartyTypeKind.ZodOptional) {
+    flattenSchema(schema._def.innerType);
+  } else if (schema._def.typeName === z.ZodFirstPartyTypeKind.ZodString) {
+    schema._def.typeName;
+  } else if ((schema._def.typeName = z.ZodFirstPartyTypeKind.ZodNumber)) {
+  } else if ((schema._def.typeName = z.ZodFirstPartyTypeKind.ZodBoolean)) {
+  } else if ((schema._def.typeName = z.ZodFirstPartyTypeKind.ZodArray)) {
+    schema._def.type;
   }
 };
-
-flattenSchema(z.never());

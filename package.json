@@ -12,7 +12,8 @@
   "scripts": {
     "format": "format-package -w && prettier -w .",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest",
+    "execute:bin": "ts-node ./src/bin.ts"
   },
   "dependencies": {
     "format-package": "^7.0.0",
@@ -24,6 +25,7 @@
     "@types/jest": "^29.4.1",
     "husky": "^8.0.3",
     "prettier": "^2.8.7",
-    "ts-jest": "^29.0.5"
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1"
   }
 }
