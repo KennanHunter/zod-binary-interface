@@ -1,16 +1,7 @@
 import { z } from "zod";
+import { SerializableSchema } from "./serializableSchemaTypes";
 
-type PossibleDefs =
-  | z.ZodStringDef
-  | z.ZodOptionalDef
-  | z.ZodObjectDef
-  | z.ZodNumberDef
-  | z.ZodBooleanDef
-  | z.ZodArrayDef
-  | z.ZodNeverDef
-  | z.ZodUnionDef;
-
-export const flattenSchema = <TSchema extends z.Schema<any, PossibleDefs>>(
+export const flattenSchema = <TSchema extends SerializableSchema>(
   schema: TSchema,
   blocks: Block[] = []
 ): Block[] => {
