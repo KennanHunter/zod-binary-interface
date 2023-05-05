@@ -1,7 +1,20 @@
 type Block = ContentBlock | DiscriminatorBlock;
 
-type ContentBlock = unknown;
+type SimpleContentBlockType = "string" | "number" | "boolean";
+
+type SimpleContentBlock = { block: "content"; type: SimpleContentBlockType };
+type ArrayContentBlock = {
+  block: "content";
+  type: "array";
+  innerBlocks: Block[];
+};
+
+type ContentBlock = SimpleContentBlock | ArrayContentBlock;
 
 type DiscriminatorBlock = {
-  [key: string]: ContentBlock[];
+  block: "discriminator";
+  // TODO
+  options: {
+    [key: string]: ContentBlock[];
+  };
 };
