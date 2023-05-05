@@ -57,6 +57,29 @@ describe("schema flattening", () => {
     ] as Block[]);
   });
 
+  test("Flatten simple nested object", () => {
+    const blocks = flattenSchema(
+      z.object({
+        foo: z.string(),
+        bar: z.object({
+          baz: z.number(),
+        }),
+      })
+    );
+
+    expect(blocks).toHaveLength(2);
+    expect(blocks).toEqual([
+      {
+        block: "content",
+        type: "string",
+      },
+      {
+        block: "content",
+        type: "number",
+      },
+    ] as Block[]);
+  });
+
   test("Flatten complex array", () => {
     const blocks = flattenSchema(z.number().or(z.string()).array().array());
 

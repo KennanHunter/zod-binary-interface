@@ -10,10 +10,10 @@
   "author": "Kennan Hunter",
   "main": "src/index.ts",
   "scripts": {
+    "execute:bin": "ts-node ./src/bin.ts",
     "format": "format-package -w && prettier -w .",
     "prepare": "husky install",
-    "test": "jest",
-    "execute:bin": "ts-node ./src/bin.ts"
+    "test": "jest"
   },
   "dependencies": {
     "format-package": "^7.0.0",
