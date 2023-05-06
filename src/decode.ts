@@ -1,4 +1,7 @@
-type BlockDecodeResult = { path: string[]; value: unknown };
+import { Block } from "./block";
+import { Path } from "./path";
+
+export type BlockDecodeResult = { path: Path; value: unknown };
 
 export const decode = (
   data: Uint8Array,
@@ -33,7 +36,7 @@ export const decode = (
       if (!numData)
         throw new DecodingError("Binary data not found for number block");
 
-      return { path: [], value: numData };
+      return { path: block.path, value: numData };
     }
 
     if (block.type === "string") {
@@ -61,7 +64,7 @@ export const decode = (
       curBit += (index + 1) * BITS_PER_ELEMENT;
 
       return {
-        path: [],
+        path: block.path,
         value: str,
       };
     }

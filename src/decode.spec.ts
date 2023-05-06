@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { blockResultToObject } from "./blockDecodeResultToObject";
 import { decode } from "./decode";
 import { flattenSchema } from "./flatten";
 
@@ -13,6 +14,11 @@ describe("data decoding", () => {
 
     expect(() => schema.parse(decodedData[0].value));
     expect(decodedData).toEqual([{ path: [], value: 69 }]);
+
+    const finalValue = blockResultToObject(decodedData);
+
+    expect(finalValue).toEqual(69);
+    expect(schema.safeParse(finalValue).success);
   });
   test("simple number and short string", () => {
     const schema = z.object({
@@ -28,8 +34,16 @@ describe("data decoding", () => {
     const decodedData = decode(mockData, flattenSchema(schema));
 
     expect(decodedData).toEqual([
-      { path: [], value: 69 },
-      { path: [], value: "Hi" },
+      { path: ["num"], value: 69 },
+      { path: ["str"], value: "Hi" },
     ]);
+
+    const finalValue = blockResultToObject(decodedData);
+
+    expect(finalValue).toEqual({
+      num: 69,
+      str: "Hi",
+    });
+    expect(schema.safeParse(finalValue).success);
   });
 });

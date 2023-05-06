@@ -1,6 +1,6 @@
-type Block = ContentBlock | DiscriminatorBlock;
+import { Path } from "./path";
 
-type Path = string[];
+export type Block = ContentBlock | DiscriminatorBlock;
 
 type SimpleContentBlockType = "string" | "number" | "boolean";
 
@@ -17,7 +17,7 @@ type ArrayContentBlock = {
   path: Path;
 };
 
-type ContentBlock = SimpleContentBlock | ArrayContentBlock;
+export type ContentBlock = SimpleContentBlock | ArrayContentBlock;
 
 type DiscriminatorBlock = {
   block: "discriminator";

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Block } from "./block";
 import { flattenSchema } from "./flatten";
 
 describe("schema flattening", () => {

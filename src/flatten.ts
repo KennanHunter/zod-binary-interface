@@ -1,8 +1,10 @@
 import { z } from "zod";
+import { Block } from "./block";
+import { Path } from "./path";
 import { SerializableSchema } from "./serializableSchemaTypes";
 
-export const flattenSchema = <TSchema extends SerializableSchema>(
-  schema: TSchema,
+export const flattenSchema = (
+  schema: SerializableSchema,
   blocks: Block[] = [],
   path: Path = []
 ): Block[] => {
