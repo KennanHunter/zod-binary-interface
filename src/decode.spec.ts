@@ -26,7 +26,7 @@ describe("data decoding", () => {
     ]);
 
     const decodedData = decode(mockData, flattenSchema(schema));
-    // expect(() => schema.parse(decodedData)).toReturn();
+
     expect(decodedData).toEqual([
       { path: [], value: 69 },
       { path: [], value: "Hi" },

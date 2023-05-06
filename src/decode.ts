@@ -10,7 +10,6 @@ export const decode = (data: Uint8Array, blocks: Block[]): unknown => {
       length % BITS_PER_ELEMENT === 0 &&
       startingBit % BITS_PER_ELEMENT === 0
     ) {
-      console.log("gettind data", startingBit, length);
       return data.subarray(
         startingBit / BITS_PER_ELEMENT,
         startingBit / BITS_PER_ELEMENT + length / BITS_PER_ELEMENT
@@ -41,18 +40,17 @@ export const decode = (data: Uint8Array, blocks: Block[]): unknown => {
 
       let index = 0;
       for (const value of restOfData) {
-        index += 1;
         if (value === 0b00000000) {
-          index += 1;
           break;
         }
+        index += 1;
       }
 
       const stringData = getData(curBit, index * BITS_PER_ELEMENT);
 
-      console.log(stringData);
-
       const str = new TextDecoder().decode(stringData);
+
+      curBit += (index + 1) * BITS_PER_ELEMENT;
 
       return {
         path: [],
