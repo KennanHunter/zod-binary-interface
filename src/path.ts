@@ -1,7 +1,7 @@
 export type Path = string[];
 
 export const PathUtils = {
-  addPathToObject: <T extends Record<string, any>>(
+  setValueWithPath: <T extends Record<string, any>>(
     obj: T,
     pathArray: string[],
     value: any
@@ -21,5 +21,10 @@ export const PathUtils = {
     current[pathArray[pathArray.length - 1]] = value;
 
     return obj;
+  },
+  extractPathFromObject: <T = unknown>(obj: any, pathArray: string[]): T => {
+    if (pathArray.length === 0) return obj;
+
+    return pathArray.reduce((prev, cur) => prev[cur], obj);
   },
 };
