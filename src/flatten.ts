@@ -3,12 +3,13 @@ import { SerializableSchema } from "./serializableSchemaTypes";
 
 export const flattenSchema = <TSchema extends SerializableSchema>(
   schema: TSchema,
-  blocks: Block[] = []
+  blocks: Block[] = [],
+  path: Path = []
 ): Block[] => {
   if (schema._def.typeName === z.ZodFirstPartyTypeKind.ZodObject) {
     const shape = schema._def.shape();
     for (const i in shape) {
-      flattenSchema(shape[i], blocks);
+      flattenSchema(shape[i], blocks, [...path, i]);
     }
   }
 
@@ -23,6 +24,7 @@ export const flattenSchema = <TSchema extends SerializableSchema>(
     blocks.push({
       block: "content",
       type: "string",
+      path,
     });
   }
 
@@ -30,6 +32,7 @@ export const flattenSchema = <TSchema extends SerializableSchema>(
     blocks.push({
       block: "content",
       type: "number",
+      path,
     });
   }
 
@@ -37,6 +40,7 @@ export const flattenSchema = <TSchema extends SerializableSchema>(
     blocks.push({
       block: "content",
       type: "boolean",
+      path,
     });
   }
 
@@ -45,6 +49,7 @@ export const flattenSchema = <TSchema extends SerializableSchema>(
       block: "content",
       type: "array",
       innerBlocks: flattenSchema(schema._def.type),
+      path,
     });
   }
 

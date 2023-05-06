@@ -1,5 +1,9 @@
-type BlockDecodeResult = { path: string[]; value: any };
-export const decode = (data: Uint8Array, blocks: Block[]): unknown => {
+type BlockDecodeResult = { path: string[]; value: unknown };
+
+export const decode = (
+  data: Uint8Array,
+  blocks: Block[]
+): BlockDecodeResult[] => {
   const BITS_PER_ELEMENT = data.BYTES_PER_ELEMENT * 8;
 
   let curBit: number = 0;
@@ -17,14 +21,17 @@ export const decode = (data: Uint8Array, blocks: Block[]): unknown => {
     }
   };
 
-  return blocks.map((block): undefined | BlockDecodeResult => {
+  return blocks.map((block): BlockDecodeResult => {
+    // TODO: implement discriminator decoding
+    // @ts-ignore
     if (block.block === "discriminator") return;
 
     if (block.type === "number") {
       const numData = getData(curBit, 8)?.at(0);
       curBit += 8;
 
-      if (!numData) return;
+      if (!numData)
+        throw new DecodingError("Binary data not found for number block");
 
       return { path: [], value: numData };
     }
@@ -36,7 +43,8 @@ export const decode = (data: Uint8Array, blocks: Block[]): unknown => {
         data.length * BITS_PER_ELEMENT - curBit
       );
 
-      if (!restOfData) return;
+      if (!restOfData)
+        throw new DecodingError("Binary data not found for string block");
 
       let index = 0;
       for (const value of restOfData) {
@@ -57,5 +65,7 @@ export const decode = (data: Uint8Array, blocks: Block[]): unknown => {
         value: str,
       };
     }
+
+    throw new InternalError("Unknown block type");
   });
 };

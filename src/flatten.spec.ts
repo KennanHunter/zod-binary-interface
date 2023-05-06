@@ -6,21 +6,27 @@ describe("schema flattening", () => {
     const blocks = flattenSchema(z.string());
 
     expect(blocks).toHaveLength(1);
-    expect(blocks).toEqual([{ block: "content", type: "string" }] as Block[]);
+    expect(blocks).toEqual([
+      { block: "content", type: "string", path: [] },
+    ] as Block[]);
   });
 
   test("Flatten single number schema", () => {
     const blocks = flattenSchema(z.number());
 
     expect(blocks).toHaveLength(1);
-    expect(blocks).toEqual([{ block: "content", type: "number" }] as Block[]);
+    expect(blocks).toEqual([
+      { block: "content", type: "number", path: [] },
+    ] as Block[]);
   });
 
   test("Flatten single boolean schema", () => {
     const blocks = flattenSchema(z.boolean());
 
     expect(blocks).toHaveLength(1);
-    expect(blocks).toEqual([{ block: "content", type: "boolean" }] as Block[]);
+    expect(blocks).toEqual([
+      { block: "content", type: "boolean", path: [] },
+    ] as Block[]);
   });
 
   test("Flatten simple array", () => {
@@ -31,7 +37,8 @@ describe("schema flattening", () => {
       {
         block: "content",
         type: "array",
-        innerBlocks: [{ block: "content", type: "number" }],
+        path: [],
+        innerBlocks: [{ block: "content", type: "number", path: [] }],
       },
     ] as Block[]);
   });
@@ -49,10 +56,12 @@ describe("schema flattening", () => {
       {
         block: "content",
         type: "string",
+        path: ["foo"],
       },
       {
         block: "content",
         type: "number",
+        path: ["bar"],
       },
     ] as Block[]);
   });
@@ -72,10 +81,12 @@ describe("schema flattening", () => {
       {
         block: "content",
         type: "string",
+        path: ["foo"],
       },
       {
         block: "content",
         type: "number",
+        path: ["bar", "baz"],
       },
     ] as Block[]);
   });
@@ -88,10 +99,12 @@ describe("schema flattening", () => {
       {
         block: "content",
         type: "array",
+        path: [],
         innerBlocks: [
           {
             block: "content",
             type: "array",
+            path: [],
             innerBlocks: [
               {
                 block: "discriminator",

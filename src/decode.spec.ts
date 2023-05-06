@@ -11,7 +11,7 @@ describe("data decoding", () => {
 
     const decodedData = decode(mockData, flattenSchema(schema));
 
-    // expect(() => schema.parse(decodedData)).toReturn();
+    expect(() => schema.parse(decodedData[0].value));
     expect(decodedData).toEqual([{ path: [], value: 69 }]);
   });
   test("simple number and short string", () => {
