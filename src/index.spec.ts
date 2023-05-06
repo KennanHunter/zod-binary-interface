@@ -1,4 +1,4 @@
-import { ZON } from ".";
+import { ZodBinaryInterface } from ".";
 import { z } from "zod";
 
 const sampleSchema = () =>
@@ -8,8 +8,8 @@ const sampleSchema = () =>
 
 describe("Final Parse", () => {
   test("Serialize returns an ArrayBuffer", () => {
-    const zon = ZON.fromSchema(sampleSchema());
+    const zbi = ZodBinaryInterface.fromSchema(sampleSchema());
 
-    expect(zon.serialize({ sampleString: "epic" })).toBeInstanceOf(ArrayBuffer);
+    expect(zbi.encode({ sampleString: "epic" })).toBeInstanceOf(ArrayBuffer);
   });
 });
