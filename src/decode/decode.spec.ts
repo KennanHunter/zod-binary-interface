@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { blockResultsToObject } from "./blockDecodeResultToObject";
+import { blockDecodeResultsToObject } from "./blockDecodeResultsToObject";
 import { decode } from "./decode";
-import { flattenSchema } from "./flatten";
+import { flattenSchema } from "../shared/flatten";
 
 describe("data decoding", () => {
   test("simple number", () => {
@@ -15,7 +15,7 @@ describe("data decoding", () => {
     expect(() => schema.parse(decodedData[0].value));
     expect(decodedData).toEqual([{ path: [], value: 69 }]);
 
-    const finalValue = blockResultsToObject(decodedData);
+    const finalValue = blockDecodeResultsToObject(decodedData);
 
     expect(finalValue).toEqual(69);
     expect(schema.safeParse(finalValue).success);
@@ -38,7 +38,7 @@ describe("data decoding", () => {
       { path: ["str"], value: "Hi" },
     ]);
 
-    const finalValue = blockResultsToObject(decodedData);
+    const finalValue = blockDecodeResultsToObject(decodedData);
 
     expect(finalValue).toEqual({
       num: 69,

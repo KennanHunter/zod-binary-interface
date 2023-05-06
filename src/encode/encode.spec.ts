@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { encode } from "./encode";
-import { flattenSchema } from "./flatten";
+import { flattenSchema } from "../shared/flatten";
 
 describe("encoding", () => {
   test("Encode single string", () => {

@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "ms-vscode.vscode-typescript-next",
+    "esbenp.prettier-vscode",
+    "orta.vscode-twoslash-queries",
+    "streetsidesoftware.code-spell-checker"
+  ]
+}

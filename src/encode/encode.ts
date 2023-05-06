@@ -1,6 +1,6 @@
-import { concatenateUint8 } from "./arrayUtils";
-import { Block } from "./block";
-import { PathUtils } from "./path";
+import { concatenateUint8 } from "../shared/arrayUtils";
+import { Block } from "../shared/block";
+import { PathUtils } from "../shared/path";
 
 export const encode = (data: any, blocks: Block[]): Uint8Array => {
   let buffer = new Uint8Array();

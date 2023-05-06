@@ -1,17 +1,17 @@
-import { Block } from "./block";
+import { Block } from "./shared/block";
 import { z } from "zod";
-import { flattenSchema } from "./flatten";
-import { SerializableSchema } from "./serializableSchemaTypes";
-import { decode } from "./decode";
-import { blockResultsToObject } from "./blockDecodeResultToObject";
-import { encode } from "./encode";
+import { flattenSchema } from "./shared/flatten";
+import { SerializableSchema } from "./shared/serializableSchemaTypes";
+import { decode } from "./decode/decode";
+import { blockDecodeResultsToObject } from "./decode/blockDecodeResultsToObject";
+import { encode } from "./encode/encode";
 
 export const ZodBinaryInterface = {
   fromSchema: <TSchema extends SerializableSchema>(schema: TSchema) =>
-    ZONInstance(schema, flattenSchema(schema)),
+    ZodBinaryInterfaceInstance(schema, flattenSchema(schema)),
 };
 
-const ZONInstance = <TSchema extends z.Schema>(
+const ZodBinaryInterfaceInstance = <TSchema extends z.Schema>(
   schema: TSchema,
   blocks: Block[]
 ) => ({
@@ -20,7 +20,7 @@ const ZONInstance = <TSchema extends z.Schema>(
 
     const decodeResults = decode(data, blocks);
 
-    const obj = blockResultsToObject(decodeResults);
+    const obj = blockDecodeResultsToObject(decodeResults);
 
     return schema.parse(obj);
   },

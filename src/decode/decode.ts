@@ -1,5 +1,5 @@
-import { Block } from "./block";
-import { Path } from "./path";
+import { Block } from "../shared/block";
+import { Path } from "../shared/path";
 
 export type BlockDecodeResult = { path: Path; value: unknown };
 

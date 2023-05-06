@@ -1,4 +1,4 @@
-# ZON Format
+# Zod Binary Interface Format
 
 All data is flattened down to values, then serialized as binary.
 
