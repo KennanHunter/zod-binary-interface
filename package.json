@@ -1,7 +1,7 @@
 {
   "name": "zod-binary-interface",
   "version": "0.0.0-alpha",
-  "description": "",
+  "description": "Zod Binary Interface allows for the encoding and decoding of JavaScript objects to and from binary",
   "license": "MIT",
   "repository": {
     "type": "git",
