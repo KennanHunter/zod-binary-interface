@@ -19,7 +19,7 @@ definitions.
 ### Installing
 
 ```shell
-# NPM
+# npm
 npm install zod-binary-interface
 # Yarn
 yarn add zod-binary-interface
@@ -28,15 +28,15 @@ yarn add zod-binary-interface
 ### Global Instance
 
 The entire library is interacted with through a global instance of `ZodBinaryInterface`,
-which stores and flattens the zod schema all data goes through
+which stores and flattens the zod schema all data goes through.
 
 ```typescript
 import { z } from "zod";
 import { ZodBinaryInterface } from "zod-binary-interface";
 
 const exampleSchema = z.schema({
-  foo: z.string()
-  bar: z.number()
+  foo: z.string(),
+  bar: z.number(),
 });
 
 const zbi = ZodBinaryInterface.fromSchema(exampleSchema);
@@ -48,7 +48,7 @@ Encoding transforms your data from a JavaScript object to a binary
 [ArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer).
 
 Binary ArrayBuffers like these can be easily transferred in requests and
-[saved to local files](./docs/recipies.md#download-to-file)
+[saved to local files](./docs/recipies.md#download-to-file).
 
 ```typescript
 const sampleData: z.infer<exampleSchema> = {
@@ -82,7 +82,12 @@ We know for certain that we will beat JSON in size, but the exact ratio is yet t
 ```shell
 git clone https://github.com/KennanHunter/zod-binary-interface.git
 cd zod-binary-interface
+
+yarn
 yarn test
+
+# Only needed for final publishing
+yarn build
 ```
 
 There exists recommended extensions and basic settings in the [.vscode](./.vscode) folder.

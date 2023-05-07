@@ -1,19 +1,9 @@
-import { concatenateUint8 } from "../shared/arrayUtils";
 import { Block } from "../shared/block";
 import { PathUtils } from "../shared/path";
+import { MutableBuffer } from "./mutableBuffer";
 
 export const encode = (data: any, blocks: Block[]): Uint8Array => {
-  let buffer = new Uint8Array();
-
-  const currentBit = 0;
-  const pushToBuffer = (...push: Uint8Array[]): Uint8Array => {
-    if (currentBit % 8 === 0) {
-      buffer = concatenateUint8(buffer, ...push);
-      return buffer;
-    }
-
-    return "" as any;
-  };
+  let buffer = new MutableBuffer();
 
   blocks.forEach((block) => {
     if (block.block === "discriminator") return;
@@ -24,9 +14,15 @@ export const encode = (data: any, blocks: Block[]): Uint8Array => {
       );
 
       // append null character to end of text encoding
-      pushToBuffer(encodedString, new Uint8Array([0b0000_0000]));
+      buffer.pushBytes(encodedString, new Uint8Array([0b0000_0000]));
+    }
+
+    if (block.type === "boolean") {
+      const bool = PathUtils.extractPathFromObject(data, block.path) as boolean;
+
+      buffer.pushBit(bool);
     }
   });
 
-  return buffer;
+  return buffer.buff;
 };
