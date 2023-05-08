@@ -1,10 +1,10 @@
-import { Block } from "./shared/block";
 import { z } from "zod";
+import { blockDecodeResultsToObject } from "./decode/blockDecodeResultsToObject";
+import { decode } from "./decode/decode";
+import { encode } from "./encode/encode";
+import { Block } from "./shared/block";
 import { flattenSchema } from "./shared/flatten";
 import { SerializableSchema } from "./shared/serializableSchemaTypes";
-import { decode } from "./decode/decode";
-import { blockDecodeResultsToObject } from "./decode/blockDecodeResultsToObject";
-import { encode } from "./encode/encode";
 
 export const ZodBinaryInterface = {
   fromSchema: <TSchema extends SerializableSchema>(schema: TSchema) =>

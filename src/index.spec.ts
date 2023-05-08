@@ -1,5 +1,5 @@
-import { ZodBinaryInterface } from ".";
 import { z } from "zod";
+import { ZodBinaryInterface } from ".";
 
 const sampleSchema = () =>
   z.object({

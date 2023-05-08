@@ -1,7 +1,7 @@
 import { z } from "zod";
+import { flattenSchema } from "../shared/flatten";
 import { blockDecodeResultsToObject } from "./blockDecodeResultsToObject";
 import { decode } from "./decode";
-import { flattenSchema } from "../shared/flatten";
 
 describe("data decoding", () => {
   test("simple number", () => {

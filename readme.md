@@ -11,7 +11,7 @@
 Zod Binary Interface is a FOSS library that allows for the
 encoding and decoding of JavaScript and Typescript objects to
 and from binary. It accomplishes this by utilizing the often
-already existing [Zod](https://github.com/colinhacks/zod) schema
+pre-existing [Zod](https://github.com/colinhacks/zod) schema
 definitions.
 
 ## Usage

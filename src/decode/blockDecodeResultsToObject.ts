@@ -1,5 +1,5 @@
-import { BlockDecodeResult } from "./decode";
 import { PathUtils } from "../shared/path";
+import { BlockDecodeResult } from "./decode";
 
 export const blockDecodeResultsToObject = (
   blocks: BlockDecodeResult[]
