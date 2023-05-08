@@ -62,12 +62,12 @@ const buffer = zbi.encode(sampleData);
 
 ### Decoding
 
-Encoding transforms your data from a Javascript ArrayBuffer, back into the original object form.
+Decoding transforms your data from a Javascript ArrayBuffer, back into the original object form.
 
 Decoding internally utilizes the supplied zod schema to validate the data.
 
 ```typescript
-const data = zbi.decode(sampleData);
+const data = zbi.decode(buffer);
 //    ^?: { foo: string, bar: number }
 ```
 
