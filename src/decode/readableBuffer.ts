@@ -11,8 +11,7 @@ export const ReadableBuffer = class {
 
     buffer.forEach((_, index) => {
       for (let bit = 0; bit < 8; bit++) {
-        buffer[index] =
-          buffer[index] + ((this.readBit() ? 1 : 0) << this.currentBit);
+        buffer[index] = buffer[index] | ((this.readBit() ? 1 : 0) << bit);
       }
     });
 
@@ -22,7 +21,7 @@ export const ReadableBuffer = class {
   readBit = (): boolean => {
     let targetByte = Math.floor(this.currentBit / 8);
 
-    const bit = this.buff[targetByte] & (0b0000_0001 << this.currentBit % 8);
+    const bit = this.buff[targetByte] & (1 << this.currentBit % 8);
 
     this.currentBit += 1;
 

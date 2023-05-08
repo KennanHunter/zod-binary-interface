@@ -9,6 +9,9 @@ describe("Buffer interchange", () => {
 
     write.pushBytes(data);
 
+    expect(write.buff).toHaveLength(3);
+    expect(write.buff).toEqual(data);
+
     const read = new ReadableBuffer(write.buff);
 
     const readData = read.readBytes(3);
