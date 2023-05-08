@@ -1,5 +1,3 @@
-import { concatenateUint8 } from "../shared/arrayUtils";
-
 export const ReadableBuffer = class {
   buff: Uint8Array;
   currentBit = 0;
@@ -24,11 +22,7 @@ export const ReadableBuffer = class {
   readBit = (): boolean => {
     let targetByte = Math.floor(this.currentBit / 8);
 
-    if (targetByte === this.buff.length) {
-      this.buff = concatenateUint8(this.buff, new Uint8Array(1));
-    }
-
-    const bit = this.buff[targetByte] & (1 << (7 - (this.currentBit % 8)));
+    const bit = this.buff[targetByte] & (0b0000_0001 << this.currentBit % 8);
 
     this.currentBit += 1;
 

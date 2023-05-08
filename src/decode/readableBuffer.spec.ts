@@ -1,7 +1,7 @@
 import { ReadableBuffer } from "./readableBuffer";
 
 const exampleBuffer = () =>
-  new ReadableBuffer(new Uint8Array([0b0100_0000, 0xff]));
+  new ReadableBuffer(new Uint8Array([0b0000_0010, 0xff]));
 
 describe("Readable Buffer", () => {
   test("Instantiate", () => {
@@ -18,6 +18,7 @@ describe("Readable Buffer", () => {
     const data = buffer.readBytes(1);
 
     expect(data).toHaveLength(1);
+    expect(data.at(0)).toEqual(0b0000_0010);
     expect(buffer.currentBit).toBe(8);
   });
 
