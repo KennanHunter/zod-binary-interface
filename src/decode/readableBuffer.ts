@@ -27,4 +27,8 @@ export const ReadableBuffer = class {
 
     return bit > 0;
   };
+
+  setCurrentBit = (newCurrentBit: number) => {
+    this.currentBit = newCurrentBit;
+  };
 };

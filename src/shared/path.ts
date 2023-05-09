@@ -10,15 +10,19 @@ export const PathUtils = {
 
     if (pathArray.length === 0) return value;
 
-    for (let i = 0; i < pathArray.length - 1; i++) {
-      const pathSegment = pathArray[i];
+    pathArray.slice(0, -1).forEach((pathSegment) => {
       if (!current[pathSegment]) {
         current[pathSegment] = {};
       }
-      current = current[pathSegment];
-    }
 
-    current[pathArray[pathArray.length - 1]] = value;
+      current = current[pathSegment];
+    });
+
+    const finalSegment = pathArray.at(-1);
+
+    if (!finalSegment) throw new InternalError("Final path segment not found");
+
+    current[finalSegment] = value;
 
     return obj;
   },
