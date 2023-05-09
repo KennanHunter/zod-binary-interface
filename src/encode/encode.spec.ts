@@ -29,4 +29,22 @@ describe("encoding", () => {
       ])
     );
   });
+  test("Encode multiple booleans", () => {
+    const schema = z.object({
+      foo: z.boolean(),
+      bar: z.boolean(),
+      baz: z.boolean(),
+      fez: z.boolean(),
+    });
+    const sampleData: z.infer<typeof schema> = {
+      foo: false,
+      bar: true,
+      baz: false,
+      fez: true,
+    };
+
+    const encodedData = encode(sampleData, flattenSchema(schema));
+
+    expect(encodedData).toEqual(new Uint8Array([0b0000_1010]));
+  });
 });
