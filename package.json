@@ -30,6 +30,7 @@
     "/dist"
   ],
   "scripts": {
+    "benchmark": "yarn build && node ./dist/benchmark/index.js",
     "build": "yarn clean && tsc",
     "clean": "rimraf ./dist",
     "execute:bin": "ts-node ./src/bin.ts",
@@ -46,6 +47,7 @@
   },
   "devDependencies": {
     "@types/jest": "^29.4.1",
+    "cli-table": "^0.3.11",
     "format-package": "^7.0.0",
     "husky": "^8.0.3",
     "jest": "^29.5.0",

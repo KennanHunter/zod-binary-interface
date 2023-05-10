@@ -51,7 +51,7 @@ Binary ArrayBuffers like these can be easily transferred in requests and
 [saved to local files](./docs/recipies.md#download-to-file).
 
 ```typescript
-const sampleData: z.infer<exampleSchema> = {
+const sampleData: z.infer<typeof exampleSchema> = {
   foo: "Foo",
   bar: 100,
 };
@@ -73,9 +73,12 @@ const data = zbi.decode(buffer);
 
 ## Benchmarks
 
-TODO
+Benchmarking is an ongoing process.
 
-We know for certain that we will beat JSON in size, but the exact ratio is yet to be known and likely depends on the data.
+| Name                                   | Iterations | ZBI Time         | ZBI Size | JSON Time        | JSON Size |
+| -------------------------------------- | ---------- | ---------------- | -------- | ---------------- | --------- |
+| [Booleans](benchmark/data/booleans.ts) | 1          | 1.699104 seconds | 4 bytes  | 0.046286 seconds | 455 bytes |
+| [Booleans](benchmark/data/booleans.ts) | 100        | 0.137128 seconds | 4 bytes  | 0.008153 seconds | 455 bytes |
 
 ## Developing
 
@@ -85,6 +88,9 @@ cd zod-binary-interface
 
 yarn
 yarn test
+
+# Benchmarking (builds in background)
+yarn benchmark
 
 # Only needed for final publishing
 yarn build
