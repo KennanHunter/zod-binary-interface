@@ -18,7 +18,7 @@ export const flattenSchema = (
   if (schema._def.typeName === z.ZodFirstPartyTypeKind.ZodUnion) {
     blocks.push({
       block: "discriminator",
-      options: {},
+      options: [],
     });
   }
 

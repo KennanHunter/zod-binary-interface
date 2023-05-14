@@ -1,3 +1,5 @@
+import { InternalError } from "./errors";
+
 export type Path = string[];
 
 export const PathUtils = {

@@ -109,7 +109,7 @@ describe("schema flattening", () => {
             innerBlocks: [
               {
                 block: "discriminator",
-                options: {},
+                options: [],
               },
             ],
           },

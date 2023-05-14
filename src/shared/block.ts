@@ -22,7 +22,5 @@ export type ContentBlock = SimpleContentBlock | ArrayContentBlock;
 type DiscriminatorBlock = {
   block: "discriminator";
   // TODO
-  options: {
-    [key: string]: ContentBlock[];
-  };
+  options: ContentBlock[][];
 };
