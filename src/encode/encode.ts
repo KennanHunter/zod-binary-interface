@@ -5,8 +5,16 @@ import { MutableBuffer } from "./mutableBuffer";
 export const encode = (data: any, blocks: Block[]): Uint8Array => {
   let buffer = new MutableBuffer();
 
-  blocks.forEach((block) => {
-    if (block.block === "discriminator") return;
+  blocks.forEach((block): void => {
+    if (block.block === "discriminator") {
+      const bitLength = Math.floor(Math.log2(block.options.length)) + 1;
+
+      for (const _ in new Array(bitLength)) {
+        buffer.pushBit(false);
+      }
+
+      return;
+    }
 
     if (block.type === "string") {
       const encodedString = new TextEncoder().encode(

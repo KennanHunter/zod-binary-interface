@@ -1,17 +1,14 @@
 import { Block } from "../shared/block";
 import { DecodingError, InternalError } from "../shared/errors";
-import { Path } from "../shared/path";
+import { PathUtils } from "../shared/path";
 import { ReadableBuffer } from "./readableBuffer";
 
-export type BlockDecodeResult = { path: Path; value: unknown };
-
 export const decode = (
-  data: Uint8Array,
-  blocks: Block[]
-): BlockDecodeResult[] => {
-  const readableBuffer = new ReadableBuffer(data);
-
-  return blocks.flatMap((block): BlockDecodeResult => {
+  readableBuffer: InstanceType<typeof ReadableBuffer>,
+  blocks: Block[],
+  finalObject: object = {}
+): object => {
+  return blocks.reduce((prev, block): object => {
     // TODO: implement discriminator decoding
     // @ts-ignore
     if (block.block === "discriminator") {
@@ -25,9 +22,13 @@ export const decode = (
         .map(() => readableBuffer.readBit())
         .reduce((prev, cur, index) => prev + ((cur ? 1 : 0) ^ index), 0);
 
-      block.options.at(discriminatorValue);
+      const discriminatedBlocks = block.options.at(discriminatorValue);
 
-      return { path: [], value: 0 };
+      if (!discriminatedBlocks) {
+        throw new InternalError("Invalid discriminator value");
+      }
+
+      return decode(readableBuffer, discriminatedBlocks, finalObject);
     }
 
     if (block.type === "number") {
@@ -36,7 +37,7 @@ export const decode = (
       if (!numData)
         throw new DecodingError("Binary data not found for number block");
 
-      return { path: block.path, value: numData };
+      return PathUtils.setValueWithPath(finalObject, block.path, numData);
     }
 
     if (block.type === "string") {
@@ -62,16 +63,17 @@ export const decode = (
 
       const str = new TextDecoder().decode(stringData);
 
-      return {
-        path: block.path,
-        value: str,
-      };
+      return PathUtils.setValueWithPath(finalObject, block.path, str);
     }
 
     if (block.type === "boolean") {
-      return { path: block.path, value: readableBuffer.readBit() };
+      return PathUtils.setValueWithPath(
+        finalObject,
+        block.path,
+        readableBuffer.readBit()
+      );
     }
 
     throw new InternalError("Unknown block type");
-  });
+  }, finalObject);
 };

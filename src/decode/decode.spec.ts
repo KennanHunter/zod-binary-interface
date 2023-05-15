@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { flattenSchema } from "../shared/flatten";
-import { blockDecodeResultsToObject } from "./blockDecodeResultsToObject";
 import { decode } from "./decode";
+import { ReadableBuffer } from "./readableBuffer";
 
 describe("data decoding", () => {
   test("simple number", () => {
@@ -10,15 +10,12 @@ describe("data decoding", () => {
     const mockData = new Uint8Array(1);
     mockData.set([69]);
 
-    const decodedData = decode(mockData, flattenSchema(schema));
+    const readableBuffer = new ReadableBuffer(mockData);
 
-    expect(() => schema.parse(decodedData[0].value));
-    expect(decodedData).toEqual([{ path: [], value: 69 }]);
+    const decodedData = decode(readableBuffer, flattenSchema(schema));
 
-    const finalValue = blockDecodeResultsToObject(decodedData);
-
-    expect(finalValue).toEqual(69);
-    expect(schema.safeParse(finalValue).success);
+    expect(decodedData).toEqual(69);
+    expect(schema.safeParse(decodedData).success);
   });
   test("multiple booleans", () => {
     const schema = z.object({
@@ -30,19 +27,12 @@ describe("data decoding", () => {
 
     const mockData = new Uint8Array([0b0000_1010]);
 
-    const decodedData = decode(mockData, flattenSchema(schema));
+    const readableBuffer = new ReadableBuffer(mockData);
 
-    expect(decodedData).toEqual([
-      { path: ["foo"], value: false },
-      { path: ["bar"], value: true },
-      { path: ["baz"], value: false },
-      { path: ["fez"], value: true },
-    ]);
+    const decodedData = decode(readableBuffer, flattenSchema(schema));
 
-    const finalValue = blockDecodeResultsToObject(decodedData);
-
-    expect(schema.safeParse(finalValue).success);
-    expect(finalValue).toEqual({
+    expect(schema.safeParse(decodedData).success);
+    expect(decodedData).toEqual({
       foo: false,
       bar: true,
       baz: false,
@@ -60,19 +50,14 @@ describe("data decoding", () => {
       0b01000101, 0b0100_1000, 0b01101001, 0b0000_0000,
     ]);
 
-    const decodedData = decode(mockData, flattenSchema(schema));
+    const readableBuffer = new ReadableBuffer(mockData);
 
-    expect(decodedData).toEqual([
-      { path: ["num"], value: 69 },
-      { path: ["str"], value: "Hi" },
-    ]);
+    const decodedData = decode(readableBuffer, flattenSchema(schema));
 
-    const finalValue = blockDecodeResultsToObject(decodedData);
-
-    expect(finalValue).toEqual({
+    expect(decodedData).toEqual({
       num: 69,
       str: "Hi",
     });
-    expect(schema.safeParse(finalValue).success);
+    expect(schema.safeParse(decodedData).success);
   });
 });

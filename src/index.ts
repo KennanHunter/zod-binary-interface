@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { blockDecodeResultsToObject } from "./decode/blockDecodeResultsToObject";
 import { decode } from "./decode/decode";
+import { ReadableBuffer } from "./decode/readableBuffer";
 import { encode } from "./encode/encode";
 import { Block } from "./shared/block";
 import { flattenSchema } from "./shared/flatten";
@@ -17,12 +17,11 @@ const ZodBinaryInterfaceInstance = <TSchema extends z.Schema>(
 ) => ({
   decode: (arrBuf: ArrayBuffer): z.infer<TSchema> => {
     const data = new Uint8Array(arrBuf);
+    const readableBuffer = new ReadableBuffer(data);
 
-    const decodeResults = decode(data, blocks);
+    const decodeResults = decode(readableBuffer, blocks);
 
-    const obj = blockDecodeResultsToObject(decodeResults);
-
-    return schema.parse(obj);
+    return schema.parse(decodeResults);
   },
   encode: (data: z.infer<TSchema>): ArrayBuffer => {
     schema.parse(data);
