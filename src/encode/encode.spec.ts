@@ -47,4 +47,31 @@ describe("encoding", () => {
 
     expect(encodedData).toEqual(new Uint8Array([0b0000_1010]));
   });
+  test("Encode nested object", () => {
+    const schema = z.object({
+      foo: z.object({
+        bar: z.object({
+          baz: z.string(),
+        }),
+      }),
+      fez: z.string(),
+    });
+
+    const sampleData: z.infer<typeof schema> = {
+      foo: {
+        bar: {
+          baz: "test",
+        },
+      },
+      fez: "epic",
+    };
+
+    const encodedData = encode(sampleData, flattenSchema(schema));
+
+    expect(encodedData).toEqual(
+      new Uint8Array([
+        116, 101, 115, 116, 0b0000_0000, 101, 112, 105, 99, 0b0000_0000,
+      ])
+    );
+  });
 });
