@@ -6,14 +6,14 @@ describe("Mutable buffer", () => {
 
     expect(buffer).toBeInstanceOf(MutableBuffer);
     expect(buffer.currentBit).toBe(0);
-    expect(buffer.buff).toBeInstanceOf(Uint8Array);
+    expect(buffer.buff).toBeInstanceOf(Array);
   });
 
   test("Push bytes", () => {
     const buffer = new MutableBuffer();
 
-    buffer.pushBytes(new Uint8Array([0xff, 0x12, 0x15]));
-    buffer.pushBytes(new Uint8Array([0x4f, 0x52, 0x55]));
+    buffer.pushBytes([0xff, 0x12, 0x15]);
+    buffer.pushBytes([0x4f, 0x52, 0x55]);
 
     expect(buffer.buff).toHaveLength(6);
     expect(buffer.currentBit).toBe(48);

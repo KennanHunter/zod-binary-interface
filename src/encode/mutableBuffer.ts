@@ -1,14 +1,14 @@
 import { concatenateUint8 } from "../shared/arrayUtils";
 
 export const MutableBuffer = class {
-  buff: Uint8Array;
+  buff: number[];
   currentBit = 0;
 
   constructor() {
-    this.buff = new Uint8Array();
+    this.buff = new Array();
   }
 
-  pushBytes = (...push: Uint8Array[]): void => {
+  pushBytes = (...push: (number[] | Uint8Array)[]): void => {
     for (let array of push) {
       for (let byte of array) {
         for (let bit = 0; bit < 8; bit++) {
@@ -22,7 +22,7 @@ export const MutableBuffer = class {
     let targetByte = Math.floor(this.currentBit / 8);
 
     if (targetByte === this.buff.length) {
-      this.buff = concatenateUint8(this.buff, new Uint8Array(1));
+      this.buff.push(0b0000_0000);
     }
 
     if (bit) {
@@ -32,4 +32,6 @@ export const MutableBuffer = class {
 
     this.currentBit += 1;
   };
+
+  toUint8Array = (): Uint8Array => new Uint8Array(this.buff);
 };

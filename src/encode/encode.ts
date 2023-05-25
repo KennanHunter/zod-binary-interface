@@ -22,7 +22,7 @@ export const encode = (data: any, blocks: Block[]): Uint8Array => {
       );
 
       // append null character to end of text encoding
-      buffer.pushBytes(encodedString, new Uint8Array([0b0000_0000]));
+      buffer.pushBytes(encodedString, [0b0000_0000]);
     }
 
     if (block.type === "boolean") {
@@ -32,5 +32,5 @@ export const encode = (data: any, blocks: Block[]): Uint8Array => {
     }
   });
 
-  return buffer.buff;
+  return buffer.toUint8Array();
 };
