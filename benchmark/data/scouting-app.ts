@@ -2,6 +2,8 @@
  * This data comes from a project that heavily influenced ZBI, a scouting app made for my robotics team
  * The app can be found at https://github.com/KennanHunter/scouting
  *
+ * Data can be found at https://github.com/KennanHunter/scouting/blob/1ba30dd1cd05171d01ecfbedec058262cd9d5a62/src/stores/match/matchTypes.ts
+ *
  * The app encodes data collected by watching a match in a QR code
  * JSON takes up too much space for a QR code
  */

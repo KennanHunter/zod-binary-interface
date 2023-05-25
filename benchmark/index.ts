@@ -112,9 +112,9 @@ export const main = () => {
       name: val.name,
       Iterations: val.iterations,
       "ZBI Time": val.encode.zodBinaryInterface.time.toFixed(6) + " seconds",
-      "ZBI Size": val.encode.zodBinaryInterface.length?.toFixed(6) + " bytes",
+      "ZBI Size": val.encode.zodBinaryInterface.length?.toFixed(0) + " bytes",
       "JSON Time": val.encode.json.time.toFixed(6) + " seconds",
-      "JSON Size": val.encode.json.length?.toFixed(6) + " bytes",
+      "JSON Size": val.encode.json.length?.toFixed(0) + " bytes",
     }))
     .reduce((prev, cur) => {
       prev[cur.name + "-" + cur.Iterations] = cur;
