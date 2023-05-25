@@ -2,7 +2,10 @@ import { Block } from "../shared/block";
 import { PathUtils } from "../shared/path";
 import { MutableBuffer } from "./mutableBuffer";
 
-export const encode = (data: any, blocks: Block[]): Uint8Array => {
+export const encode = (
+  data: any,
+  blocks: Block[]
+): InstanceType<typeof MutableBuffer> => {
   let buffer = new MutableBuffer();
 
   blocks.forEach((block): void => {
@@ -32,5 +35,5 @@ export const encode = (data: any, blocks: Block[]): Uint8Array => {
     }
   });
 
-  return buffer.toUint8Array();
+  return buffer;
 };

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { ZodTypeAny, z } from "zod";
 import { Block } from "./block";
 import { Path } from "./path";
 import { SerializableSchema } from "./serializableSchemaTypes";
@@ -18,7 +18,10 @@ export const flattenSchema = (
   if (schema._def.typeName === z.ZodFirstPartyTypeKind.ZodUnion) {
     blocks.push({
       block: "discriminator",
-      options: [],
+      options: schema._def.options.map((option) =>
+        flattenSchema(option, [], path)
+      ),
+      discriminate: schema._def.options as readonly ZodTypeAny[],
     });
   }
 
@@ -50,7 +53,7 @@ export const flattenSchema = (
     blocks.push({
       block: "content",
       type: "array",
-      innerBlocks: flattenSchema(schema._def.type),
+      innerBlocks: flattenSchema(schema._def.type, [], path),
       path,
     });
   }

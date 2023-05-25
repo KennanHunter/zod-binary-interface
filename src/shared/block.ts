@@ -1,3 +1,4 @@
+import { ZodTypeAny } from "zod";
 import { Path } from "./path";
 
 export type Block = ContentBlock | DiscriminatorBlock;
@@ -22,5 +23,6 @@ export type ContentBlock = SimpleContentBlock | ArrayContentBlock;
 type DiscriminatorBlock = {
   block: "discriminator";
   // TODO
-  options: ContentBlock[][];
+  options: Block[][];
+  discriminate: readonly ZodTypeAny[];
 };

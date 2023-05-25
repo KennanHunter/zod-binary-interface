@@ -9,7 +9,10 @@ describe("encoding", () => {
 
     const sampleSchema = z.string();
 
-    const encodedData = encode(sampleData, flattenSchema(sampleSchema));
+    const encodedData = encode(
+      sampleData,
+      flattenSchema(sampleSchema)
+    ).toUint8Array();
 
     expect(encodedData).toHaveLength(181);
     expect(encodedData).toEqual(
@@ -45,7 +48,7 @@ describe("encoding", () => {
 
     const encodedData = encode(sampleData, flattenSchema(schema));
 
-    expect(encodedData).toEqual(new Uint8Array([0b0000_1010]));
+    expect(encodedData.toUint8Array()).toEqual(new Uint8Array([0b0000_1010]));
   });
   test("Encode nested object", () => {
     const schema = z.object({
@@ -66,7 +69,10 @@ describe("encoding", () => {
       fez: "epic",
     };
 
-    const encodedData = encode(sampleData, flattenSchema(schema));
+    const encodedData = encode(
+      sampleData,
+      flattenSchema(schema)
+    ).toUint8Array();
 
     expect(encodedData).toEqual(
       new Uint8Array([

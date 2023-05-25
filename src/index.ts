@@ -28,6 +28,6 @@ const ZodBinaryInterfaceInstance = <TSchema extends z.Schema>(
 
     const encodedData = encode(data, blocks);
 
-    return encodedData.buffer;
+    return encodedData.toUint8Array().buffer;
   },
 });
