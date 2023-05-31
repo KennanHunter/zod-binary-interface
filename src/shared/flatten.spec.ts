@@ -70,7 +70,11 @@ describe("schema flattening", () => {
 
   test("Flatten simple discriminator", () => {
     const blocks = flattenSchema(z.string().or(z.number()));
+    const blocksAlternativeSyntax = flattenSchema(
+      z.union([z.string(), z.number()])
+    );
 
+    sameStringified(blocks, blocksAlternativeSyntax);
     expect(blocks).toHaveLength(1);
     sameStringified(blocks, [
       {
@@ -80,6 +84,7 @@ describe("schema flattening", () => {
           [{ block: "content", type: "number", path: [] }],
         ],
         discriminate: [z.string(), z.number()],
+        path: [],
       },
     ]);
   });

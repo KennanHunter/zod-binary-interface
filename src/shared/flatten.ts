@@ -22,6 +22,7 @@ export const flattenSchema = (
         flattenSchema(option, [], path)
       ),
       discriminate: schema._def.options as readonly ZodTypeAny[],
+      path,
     });
   }
 

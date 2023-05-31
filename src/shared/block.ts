@@ -20,9 +20,10 @@ type ArrayContentBlock = {
 
 export type ContentBlock = SimpleContentBlock | ArrayContentBlock;
 
-type DiscriminatorBlock = {
+export type DiscriminatorBlock = {
   block: "discriminator";
   // TODO
+  path: Path;
   options: Block[][];
   discriminate: readonly ZodTypeAny[];
 };

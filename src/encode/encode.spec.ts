@@ -1,8 +1,17 @@
 import { z } from "zod";
+import { DiscriminatorBlock } from "../shared/block";
 import { flattenSchema } from "../shared/flatten";
 import { encode } from "./encode";
 
 describe("encoding", () => {
+  test("Encode simple number", () => {
+    const schema = z.number();
+    const data: z.infer<typeof schema> = 69;
+
+    const encodedData = encode(data, flattenSchema(schema)).toUint8Array();
+
+    expect(encodedData.at(0)).toEqual(0b01000101);
+  });
   test("Encode single string", () => {
     const sampleData =
       'Zod is a TypeScript-first schema declaration and validation library. I\'m using the term "schema" to broadly refer to any data type, from a simple string to a complex nested object.';
@@ -79,5 +88,21 @@ describe("encoding", () => {
         116, 101, 115, 116, 0b0000_0000, 101, 112, 105, 99, 0b0000_0000,
       ])
     );
+  });
+  test("Encode discriminated value", () => {
+    const schema = z.union([z.number(), z.string()]);
+
+    const sampleCase1: z.infer<typeof schema> = "Epic";
+    const encodedData1 = encode(
+      sampleCase1,
+      flattenSchema(schema)
+    ).toUint8Array();
+
+    expect(encodedData1).toEqual(new Uint8Array([138, 224, 210, 198, 0, 0]));
+
+    const sampleCase2: z.infer<typeof schema> = 69;
+    const encodedData2 = encode(sampleCase2, flattenSchema(schema)).buff;
+
+    expect(encodedData2).toEqual([0b10001010, 0b0]);
   });
 });
