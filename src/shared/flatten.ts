@@ -19,9 +19,45 @@ export const flattenSchema = (
     blocks.push({
       block: "discriminator",
       options: schema._def.options.map((option) =>
-        flattenSchema(option, [], path)
+        flattenSchema(option, [], [])
       ),
       discriminate: schema._def.options as readonly ZodTypeAny[],
+      path,
+    });
+  }
+
+  if (schema._def.typeName === z.ZodFirstPartyTypeKind.ZodOptional) {
+    blocks.push({
+      block: "discriminator",
+      options: [
+        flattenSchema(schema._def.innerType, [], []),
+        [
+          {
+            block: "content",
+            type: "undefined",
+            path,
+          },
+        ],
+      ],
+      discriminate: [schema._def.innerType, z.undefined()],
+      path,
+    });
+  }
+
+  if (schema._def.typeName === z.ZodFirstPartyTypeKind.ZodNullable) {
+    blocks.push({
+      block: "discriminator",
+      options: [
+        flattenSchema(schema._def.innerType, [], []),
+        [
+          {
+            block: "content",
+            type: "null",
+            path,
+          },
+        ],
+      ],
+      discriminate: [schema._def.innerType, z.null()],
       path,
     });
   }

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { DiscriminatorBlock } from "../shared/block";
+import { showArrAsBinary } from "../shared/showArrAsBinary";
 import { flattenSchema } from "../shared/flatten";
 import { encode } from "./encode";
 
@@ -104,5 +104,61 @@ describe("encoding", () => {
     const encodedData2 = encode(sampleCase2, flattenSchema(schema)).buff;
 
     expect(encodedData2).toEqual([0b10001010, 0b0]);
+  });
+
+  test("Encode optional property", () => {
+    const schema = z.object({
+      test: z.string().optional(),
+    });
+
+    const populatedCase: z.infer<typeof schema> = {
+      test: "epic",
+    };
+
+    const unpopulatedCase: z.infer<typeof schema> = {};
+
+    const encodedPopulatedCase = encode(
+      populatedCase,
+      flattenSchema(schema)
+    ).buff;
+
+    expect(encodedPopulatedCase).toEqual([
+      0b11001010, 0b11100000, 0b11010010, 0b11000110, 0b00000000, 0b00000000,
+    ]);
+
+    const encodedUnpopulatedCase = encode(
+      unpopulatedCase,
+      flattenSchema(schema)
+    ).buff;
+
+    expect(encodedUnpopulatedCase).toEqual([0b0000_0000]);
+  });
+
+  test("Encode nullable property", () => {
+    const schema = z.object({
+      test: z.string().nullable(),
+    });
+
+    const populatedCase: z.infer<typeof schema> = {
+      test: "epic",
+    };
+
+    const unpopulatedCase: z.infer<typeof schema> = { test: null };
+
+    const encodedPopulatedCase = encode(
+      populatedCase,
+      flattenSchema(schema)
+    ).buff;
+
+    expect(encodedPopulatedCase).toEqual([
+      0b11001010, 0b11100000, 0b11010010, 0b11000110, 0b00000000, 0b00000000,
+    ]);
+
+    const encodedUnpopulatedCase = encode(
+      unpopulatedCase,
+      flattenSchema(schema)
+    ).buff;
+
+    expect(encodedUnpopulatedCase).toEqual([0b0000_0000]);
   });
 });

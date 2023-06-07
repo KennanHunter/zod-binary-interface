@@ -3,7 +3,12 @@ import { Path } from "./path";
 
 export type Block = ContentBlock | DiscriminatorBlock;
 
-type SimpleContentBlockType = "string" | "number" | "boolean";
+type SimpleContentBlockType =
+  | "string"
+  | "number"
+  | "boolean"
+  | "undefined"
+  | "null";
 
 type SimpleContentBlock = {
   block: "content";
