@@ -7,6 +7,7 @@
 ![Lines of code](https://img.shields.io/tokei/lines/github/kennanhunter/zod-binary-interface?style=for-the-badge)
 ![npm](https://img.shields.io/npm/dt/zod-binary-interface?style=for-the-badge)
 ![NPM](https://img.shields.io/npm/l/zod-binary-interface?style=for-the-badge)
+[![Code coverage](https://img.shields.io/codecov/c/github/kennanhunter/zod-binary-interface?style=for-the-badge)](https://app.codecov.io/gh/KennanHunter/zod-binary-interface)
 
 Zod Binary Interface is a FOSS library that allows for the
 encoding and decoding of JavaScript and Typescript objects to
