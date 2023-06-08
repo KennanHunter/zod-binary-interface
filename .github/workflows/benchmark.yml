@@ -1,7 +1,6 @@
-name: CI Test
+name: CI Benchmark
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
