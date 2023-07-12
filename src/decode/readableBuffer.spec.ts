@@ -32,4 +32,17 @@ describe("Readable Buffer", () => {
     expect(toBeFalse).toBe(false);
     expect(toBeTrue).toBe(true);
   });
+
+  test("Read bytes from offset", () => {
+    const buffer = new ReadableBuffer(
+      new Uint8Array([0b1111_1110, 0b00000_0001])
+    );
+
+    buffer.readBit();
+    const data = buffer.readBytes(1);
+
+    expect(data).toHaveLength(1);
+    expect(data.at(0)).toEqual(0b1111_1111);
+    expect(buffer.currentBit).toBe(9);
+  });
 });

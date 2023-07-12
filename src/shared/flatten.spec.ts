@@ -112,7 +112,7 @@ describe("schema flattening", () => {
         path: ["bar", "baz"],
       },
     ] as Block[]);
-  });  
+  });
 
   // test("Flatten complex array", () => {
   //   const blocks = flattenSchema(z.number().or(z.string()).array().array());

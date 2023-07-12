@@ -1,5 +1,3 @@
-import { concatenateUint8 } from "../shared/arrayUtils";
-
 export const MutableBuffer = class {
   buff: number[];
   currentBit = 0;

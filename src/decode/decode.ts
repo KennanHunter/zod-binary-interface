@@ -8,7 +8,7 @@ export const decode = (
   blocks: Block[],
   finalObject: object = {}
 ): object => {
-  return blocks.reduce((prev, block): object => {
+  return blocks.reduce((_, block): object => {
     // TODO: implement discriminator decoding
     // @ts-ignore
     if (block.block === "discriminator") {
@@ -28,7 +28,11 @@ export const decode = (
         throw new InternalError("Invalid discriminator value");
       }
 
-      return decode(readableBuffer, discriminatedBlocks, finalObject);
+      return PathUtils.setValueWithPath(
+        finalObject,
+        block.path,
+        decode(readableBuffer, discriminatedBlocks, {})
+      );
     }
 
     if (block.type === "number") {
@@ -44,7 +48,9 @@ export const decode = (
       const bitAtStringStart = readableBuffer.currentBit;
 
       const restOfData = readableBuffer.readBytes(
-        readableBuffer.buff.length * 8 - readableBuffer.currentBit
+        Math.ceil(
+          (readableBuffer.buff.length * 8 - readableBuffer.currentBit) / 8
+        )
       );
 
       if (!restOfData)
@@ -61,7 +67,7 @@ export const decode = (
       readableBuffer.setCurrentBit(bitAtStringStart);
       const stringData = readableBuffer.readBytes(index);
 
-      const str = new TextDecoder().decode(stringData);
+      const str = new TextDecoder().decode(new Uint8Array(stringData));
 
       return PathUtils.setValueWithPath(finalObject, block.path, str);
     }

@@ -6,8 +6,8 @@ export const ReadableBuffer = class {
     this.buff = buff;
   }
 
-  readBytes = (length = 1): Uint8Array => {
-    const buffer = new Uint8Array(length);
+  readBytes = (length = 1): Array<number> => {
+    const buffer = new Array(length).fill(0);
 
     buffer.forEach((_, index) => {
       for (let bit = 0; bit < 8; bit++) {
