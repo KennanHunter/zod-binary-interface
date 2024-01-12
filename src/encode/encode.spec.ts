@@ -89,7 +89,7 @@ describe("encoding", () => {
       ])
     );
   });
-  
+
   test("Encode discriminated value", () => {
     const schema = z.union([z.number(), z.string()]);
 

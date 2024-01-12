@@ -3,6 +3,7 @@ import { ZodBinaryInterface } from "../src";
 import { SerializableSchema } from "../src/shared/serializableSchemaTypes";
 import { booleansData, booleansSchema } from "./data/booleans";
 import { scoutingData, scoutingSchema } from "./data/scouting-app";
+import { paperData, paperDataSchema } from "./data/paper-example";
 
 export const timeFunction = <T>(func: () => T, iterations = 1): [number, T] => {
   const time = new Array(iterations)
@@ -101,6 +102,11 @@ export const main = () => {
       data: booleansData,
       schema: booleansSchema,
       name: "booleans",
+    }),
+    ...runOnceAndMany({
+      data: paperData,
+      schema: paperDataSchema,
+      name: "paper",
     }),
     // ...runOnceAndMany({
     //   data: scoutingData,

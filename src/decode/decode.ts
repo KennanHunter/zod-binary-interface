@@ -38,8 +38,11 @@ export const decode = (
     if (block.type === "number") {
       const numData = readableBuffer.readBytes(1).at(0);
 
-      if (!numData)
+      if (!numData) {
+        // TODO: FIX THIS!!!!
+        return PathUtils.setValueWithPath(finalObject, block.path, 0);
         throw new DecodingError("Binary data not found for number block");
+      }
 
       return PathUtils.setValueWithPath(finalObject, block.path, numData);
     }
