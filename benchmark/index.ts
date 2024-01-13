@@ -2,8 +2,10 @@ import { z } from "zod";
 import { ZodBinaryInterface } from "../src";
 import { SerializableSchema } from "../src/shared/serializableSchemaTypes";
 import { booleansData, booleansSchema } from "./data/booleans";
-import { scoutingData, scoutingSchema } from "./data/scouting-app";
 import { paperData, paperDataSchema } from "./data/paper-example";
+import { numbersData, numbersSchema } from "./data/bigNumbers";
+import { stringsData, stringsSchema } from "./data/strings";
+import { mixOfNumbersData, mixOfNumbersSchema } from "./data/mixOfNumbers";
 
 export const timeFunction = <T>(func: () => T, iterations = 1): [number, T] => {
   const time = new Array(iterations)
@@ -102,6 +104,21 @@ export const main = () => {
       data: booleansData,
       schema: booleansSchema,
       name: "booleans",
+    }),
+    ...runOnceAndMany({
+      data: numbersData,
+      schema: numbersSchema,
+      name: "numbers",
+    }),
+    ...runOnceAndMany({
+      data: stringsData,
+      schema: stringsSchema,
+      name: "strings",
+    }),
+    ...runOnceAndMany({
+      data: mixOfNumbersData,
+      schema: mixOfNumbersSchema,
+      name: "mix of numbers",
     }),
     ...runOnceAndMany({
       data: paperData,
